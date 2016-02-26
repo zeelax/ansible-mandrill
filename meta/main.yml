@@ -1,0 +1,10 @@
+---
+galaxy_info:
+  author: Mohannad Ali 
+  description: "Ansible Mandrill Notifier"
+  min_ansible_version: 1.9
+  platforms: []
+  categories:
+    - system
+
+dependencies: []

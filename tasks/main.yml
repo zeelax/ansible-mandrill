@@ -1,0 +1,13 @@
+---
+- name: Mandrill Notifier
+  mandrill_notifier:
+    from_email="{{ mandrill_notifier_from_email }}"
+    from_name="{{ mandrill_notifier_from_name }}"
+    reply_to="{{ mandrill_notifier_reply_to }}"
+    html="{{ mandrill_notifier_html }}"
+    subject="{{ mandrill_notifier_subject }}"
+    text="{{ mandrill_notifier_text }}"
+    to="{{ mandrill_notifier_to }}"
+    mandrill_notifier_api_token="{{ mandrill_notifier_api_token }}"
+  with_items: mandrill_notifier_list_users
+  when: mandrill_notifier_list_users != []
