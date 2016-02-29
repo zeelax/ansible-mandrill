@@ -20,7 +20,7 @@ def main():
         module.fail_json(msg='mandrill is required. Install by running `pip install mandrill`')
 
     try:
-        mandrill_client = mandrill.Mandrill(mandrill_notifier_api_token)
+        mandrill_client = mandrill.Mandrill(module.params['mandrill_notifier_api_token'])
         message = {
             'from_email': module.params['from_email'],
             'from_name': module.params['from_name'],
