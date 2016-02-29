@@ -1,4 +1,5 @@
-#!/usr/bin/python
+from ansible.module_utils.basic import *
+
 
 def main():
     argument_spec = {}
@@ -14,13 +15,17 @@ def main():
             mandrill_notifier_api_token={'required': True, 'type': 'str'}
         ))
 
-    module = AnsibleModule(argument_spec=argument_spec, supports_check_mode=False)
+    module = AnsibleModule(argument_spec=argument_spec,
+                           supports_check_mode=False)
 
     if not HAS_MANDRILL:
-        module.fail_json(msg='mandrill is required. Install by running `pip install mandrill`')
+        module.fail_json(
+            msg='mandrill is required. Install by '
+                'running `pip install mandrill`')
 
     try:
-        mandrill_client = mandrill.Mandrill(module.params['mandrill_notifier_api_token'])
+        mandrill_client = mandrill.Mandrill(
+            module.params['mandrill_notifier_api_token'])
         message = {
             'from_email': module.params['from_email'],
             'from_name': module.params['from_name'],
@@ -31,17 +36,15 @@ def main():
             'to': [{'email': module.params['to'], 'type': 'to'}]
         }
 
-        result = mandrill_client.messages.send(message=message, async=False, ip_pool='Main Pool')
+        result = mandrill_client.messages.send(message=message, async=False,
+                                               ip_pool='Main Pool')
         module.exit_json(**{'changed': True, 'result': result})
 
     except mandrill.Error, e:
-        module.fail_json('A mandrill error occurred: %s - %s' % (e.__class__, e))
+        module.fail_json(
+            'A mandrill error occurred: %s - %s' % (e.__class__, e))
 
-
-# import module snippets
-from ansible.module_utils.basic import *
-
-# if mandrill is install
+# if mandrill is installed
 HAS_MANDRILL = False
 try:
     import mandrill
